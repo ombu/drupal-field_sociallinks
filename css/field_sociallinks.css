@@ -1,0 +1,46 @@
+.field-type-sociallinks {
+  position: relative;
+  overflow: hidden;
+}
+.field-type-sociallinks .sociallink {
+  display: block;
+  float: left;
+  width: 16px;
+  height: 16px;
+  text-indent: -999em;
+  overflow: hidden;
+  margin-left: 4px;
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-color: transparent;
+}
+.field-type-sociallinks .sociallink:first-child {
+  margin-left: 0;
+}
+.field-type-sociallinks .sociallink.sociallink-facebook {
+  background-image: url('img/facebook.png');
+}
+.field-type-sociallinks .sociallink.sociallink-rss {
+  background-image: url('img/feed.png');
+}
+.field-type-sociallinks .sociallink.sociallink-flickr {
+  background-image: url('img/flickr.png');
+}
+.field-type-sociallinks .sociallink.sociallink-linkedin {
+  background-image: url('img/linkedin.png');
+}
+.field-type-sociallinks .sociallink.sociallink-myspace {
+  background-image: url('img/myspace.png');
+}
+.field-type-sociallinks .sociallink.sociallink-tumblr {
+  background-image: url('img/tumblr.png');
+}
+.field-type-sociallinks .sociallink.sociallink-twitter {
+  background-image: url('img/twitter.png');
+}
+.field-type-sociallinks .sociallink.sociallink-vimeo {
+  background-image: url('img/vimeo.png');
+}
+.field-type-sociallinks .sociallink.sociallink-youtube {
+  background-image: url('img/youtube.png');
+}

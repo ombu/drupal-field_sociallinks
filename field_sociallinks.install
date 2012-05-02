@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Install file for field_sociallinks module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function field_sociallinks_field_schema($field) {
+  $columns = array(
+    'service' => array(
+      'type' => 'text',
+      'size' => 'small',
+      'not null' => FALSE,
+    ),
+    'url' => array(
+      'type' => 'text',
+      'size' => 'normal',
+      'not null' => FALSE,
+    ),
+  );
+
+  return array(
+    'columns' => $columns,
+  );
+}

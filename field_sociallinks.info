@@ -1,0 +1,6 @@
+name = "Social Links Field"
+description = "Provides a Social Links Field via the fields api"
+core = "7.x"
+package = ""
+php = "5.3"
+dependencies[] = "field"

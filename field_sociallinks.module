@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * @file
+ * Something about the file
+ */
+
+/**
+ * Hooks
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function field_sociallinks_field_info() {
+  return array(
+    'sociallinks' => array(
+      'label' => t('Social Links'),
+      'description' => 'A field to provide social media links (Facebook, Twitter, etc).',
+      'instance_settings' => array(),
+      'default_widget' => 'sociallinks_sociallinks_widget',
+      'default_formatter' => 'sociallinks_sociallinks_formatter',
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function field_sociallinks_field_widget_info() {
+  return array(
+    'sociallinks_sociallinks_widget' => array(
+      'label' => t('Default'),
+      'field types' => array('sociallinks'),
+      'settings' => array(),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+        'default values' => FIELD_BEHAVIOR_DEFAULT,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function field_sociallinks_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // $field_name is the name of the field instance. This is the
+  // name that the administrator gives the field instance when
+  // attaching it to an entity.
+  $field_name = $instance['field_name'];
+
+  // Is this field instance required?
+  // We can use this $required value to make sub-elements of the
+  // widget form required.
+  $required = $element['#required'];
+
+  // $item is where the current saved values are stored.
+  if (isset($items[$delta])) {
+    $item = $items[$delta];
+  }
+  else {
+    $item = array();
+  }
+
+  $element['service'] = array(
+    '#title' => t('Service'),
+    '#type' => 'select',
+    '#required' => $required,
+    '#default_value' => isset($item['service']) ? $item['service'] : '',
+    '#options' => field_sociallinks_get_services(),
+  );
+
+  $element['url'] = array(
+    '#title' => t('URL'),
+    '#type' => 'textfield',
+    '#required' => $required,
+    '#default_value' => isset($item['url']) ? $item['url'] : '',
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_field_is_empty().
+ */
+function field_sociallinks_field_is_empty($item, $field) {
+  $is_empty = TRUE;
+  if (!empty($item['url'])) {
+    $is_empty = FALSE;
+  }
+  return $is_empty;
+}
+
+/**
+ * Implements hook_field_validate().
+ */
+function field_sociallinks_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function field_sociallinks_field_formatter_info() {
+  return array(
+    'sociallinks_sociallinks_formatter' => array(
+      'label' => t('Default'),
+      'field types' => array('sociallinks'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function field_sociallinks_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  drupal_add_css(drupal_get_path('module', 'field_sociallinks') . '/css/field_sociallinks.css');
+  $services = field_sociallinks_get_services();
+  $element = array();
+  foreach ($items as $delta => $item) {
+    $element[$delta] = array(
+      '#type' => 'link',
+      '#title' => $services[$item['service']],
+      '#href' => $item['url'],
+      '#options' => array(
+        'attributes' => array(
+          'title' => $services[$item['service']],
+          'class' => array('sociallink', 'sociallink-' . $item['service']),
+        ),
+      ),
+    );
+  }
+  return $element;
+}
+
+/**
+ * Utility Functions
+ */
+
+/**
+ * The list of possible services.
+ *
+ * @return array
+ *   List of service names
+ */
+function field_sociallinks_get_services() {
+  static $services_list = NULL;
+
+  if ($services_list === NULL) {
+    $services = array(
+      'Facebook',
+      'Flickr',
+      'LinkedIn',
+      'MySpace',
+      'RSS',
+      'Tumblr',
+      'Twitter',
+      'Vimeo',
+      'YouTube',
+    );
+    $services_list = array();
+    foreach ($services as $service_name) {
+      $service_slug = preg_replace('/\W/', '-', $service_name);
+      $service_slug = strtolower($service_slug);
+      $services_list[$service_slug] = $service_name;
+    }
+  }
+
+  return $services_list;
+}
