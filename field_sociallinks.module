@@ -10,6 +10,36 @@
  */
 
 /**
+ * Implements hook_bean_types_api_info().
+ */
+function field_sociallinks_bean_types_api_info() {
+  return array(
+    'api' => bean_current_version(),
+  );
+}
+
+/**
+ * Implements hook_bean_types().
+ */
+function field_sociallinks_bean_types() {
+  $plugins = array();
+  $plugin_path = drupal_get_path('module', 'field_sociallinks');
+
+  $plugins['sociallinks'] = array(
+    'label' => t('Social Media Links'),
+    'handler' => array(
+      'class' => 'BeanSocialLinks',
+      'parent' => 'BeanPlugin',
+    ),
+    'path' => $plugin_path . '/includes',
+    'file' => 'BeanSocialLinks.php',
+    'editable' => TRUE,
+  );
+
+  return $plugins;
+}
+
+/**
  * Implements hook_field_info().
  */
 function field_sociallinks_field_info() {
