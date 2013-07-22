@@ -47,11 +47,29 @@ function field_sociallinks_field_info() {
     'sociallinks' => array(
       'label' => t('Social Links'),
       'description' => 'A field to provide social media links (Facebook, Twitter, etc).',
+      'settings' => array('social_services' => array_keys(field_sociallinks_get_services())),
       'instance_settings' => array(),
       'default_widget' => 'sociallinks_sociallinks_widget',
       'default_formatter' => 'sociallinks_sociallinks_formatter',
     ),
   );
+}
+
+/**
+ * Implements hook_field_settings_form().
+ */
+function field_sociallinks_field_settings_form($field, $instance, $has_data) {
+  $settings = $field['settings'];
+  $form['social_services'] = array(
+    '#type' => 'select',
+    '#options' => field_sociallinks_get_services(),
+    '#multiple' => TRUE,
+    '#title' => t('Available social services'),
+    '#default_value' => $settings['social_services'],
+    '#required' => TRUE,
+    '#description' => t('The available social services for use by this field'),
+  );
+  return $form;
 }
 
 /**
@@ -98,7 +116,7 @@ function field_sociallinks_field_widget_form(&$form, &$form_state, $field, $inst
     '#type' => 'select',
     '#required' => $required,
     '#default_value' => isset($item['service']) ? $item['service'] : '',
-    '#options' => field_sociallinks_get_services(),
+    '#options' => field_sociallinks_get_services($field['settings']['social_services']),
   );
 
   $element['url'] = array(
@@ -170,10 +188,13 @@ function field_sociallinks_field_formatter_view($entity_type, $entity, $field, $
 /**
  * The list of possible services.
  *
+ * @param array $filter
+ *   Optional array to filter services by.
+ *
  * @return array
  *   List of service names
  */
-function field_sociallinks_get_services() {
+function field_sociallinks_get_services($filter = array()) {
   static $services_list = NULL;
 
   if ($services_list === NULL) {
@@ -194,6 +215,10 @@ function field_sociallinks_get_services() {
       $service_slug = strtolower($service_slug);
       $services_list[$service_slug] = $service_name;
     }
+  }
+
+  if ($filter) {
+    return array_intersect_key($services_list, $filter);
   }
 
   return $services_list;
