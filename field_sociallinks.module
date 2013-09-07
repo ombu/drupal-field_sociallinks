@@ -199,6 +199,7 @@ function field_sociallinks_get_services($filter = array()) {
 
   if ($services_list === NULL) {
     $services = array(
+      'Website',
       'Facebook',
       'Flickr',
       'LinkedIn',
