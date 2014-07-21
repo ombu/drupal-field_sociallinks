@@ -202,6 +202,7 @@ function field_sociallinks_get_services($filter = array()) {
       'Website',
       'Facebook',
       'Flickr',
+      'Google+',
       'LinkedIn',
       'Instagram',
       'MySpace',
