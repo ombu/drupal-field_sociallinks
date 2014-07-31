@@ -168,13 +168,14 @@ function field_sociallinks_field_formatter_view($entity_type, $entity, $field, $
   foreach ($items as $delta => $item) {
     $element[$delta] = array(
       '#type' => 'link',
-      '#title' => $services[$item['service']],
+      '#title' => '<span>' . $services[$item['service']] . '</span>',
       '#href' => $item['url'],
       '#options' => array(
         'attributes' => array(
           'title' => $services[$item['service']],
           'class' => array('sociallink', 'sociallink-' . $item['service']),
         ),
+        'html' => TRUE,
       ),
     );
   }
