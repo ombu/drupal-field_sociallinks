@@ -196,30 +196,20 @@ function field_sociallinks_field_formatter_view($entity_type, $entity, $field, $
  *   List of service names
  */
 function field_sociallinks_get_services($filter = array()) {
-  static $services_list = NULL;
-
-  if ($services_list === NULL) {
-    $services = array(
-      'Website',
-      'Facebook',
-      'Flickr',
-      'Google+',
-      'LinkedIn',
-      'Instagram',
-      'MySpace',
-      'RSS',
-      'Tumblr',
-      'Twitter',
-      'Vimeo',
-      'YouTube',
-    );
-    $services_list = array();
-    foreach ($services as $service_name) {
-      $service_slug = preg_replace('/\W/', '-', $service_name);
-      $service_slug = strtolower($service_slug);
-      $services_list[$service_slug] = $service_name;
-    }
-  }
+  $services_list = array(
+    'website'     => 'Website',
+    'facebook'    => 'Facebook',
+    'flickr'      => 'Flickr',
+    'google-plus' => 'Google+',
+    'linkedin'    => 'LinkedIn',
+    'instagram'   => 'Instagram',
+    'myspace'     => 'MySpace',
+    'rss'         => 'RSS',
+    'tumblr'      => 'Tumblr',
+    'twitter'     => 'Twitter',
+    'vimeo'       => 'Vimeo',
+    'youtube'     => 'YouTube',
+  );
 
   if ($filter) {
     return array_intersect_key($services_list, $filter);
