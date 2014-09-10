@@ -211,6 +211,8 @@ function field_sociallinks_get_services($filter = array()) {
     'youtube'     => 'YouTube',
   );
 
+  drupal_alter('field_sociallinks_services', $services_list);
+
   if ($filter) {
     return array_intersect_key($services_list, $filter);
   }
