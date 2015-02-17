@@ -162,7 +162,6 @@ function field_sociallinks_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function field_sociallinks_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  drupal_add_css(drupal_get_path('module', 'field_sociallinks') . '/css/field_sociallinks.css');
   $services = field_sociallinks_get_services();
   $element = array();
   foreach ($items as $delta => $item) {
@@ -179,6 +178,11 @@ function field_sociallinks_field_formatter_view($entity_type, $entity, $field, $
       ),
     );
   }
+  $element['#attached'] = array(
+    'css' => array(
+      drupal_get_path('module', 'field_sociallinks') . '/css/field_sociallinks.css',
+    ),
+  );
   return $element;
 }
 
