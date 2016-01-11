@@ -46,6 +46,7 @@ function field_sociallinks_install() {
     // TODO determine what to do, if anything, if these fields exist already.
     $field_config = $field['field_config'];
     if (!$existing_field = field_info_field($field_config['field_name'])) {
+      $field_config['settings']['social_services'] = field_sociallinks_get_services();
       field_create_field($field_config);
     }
 
